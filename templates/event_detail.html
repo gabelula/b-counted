@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load math_filter %}
+
+
+
+{% block content %}
+<div id="corners_up">Event: {{ event.Event|escape}}</div>
+<div id="border">
+
+
+<div id="notab">
+
+<div class="content">
+
+{% if event.Parent %}
+This event is one part of the multisession-event <a href="{{event.Parent.get_absolute_url}}">{{event.Parent.Name}}</a><br/>
+{% endif %}
+
+<span class="smalltxt">Published on: {{ event.pub_date|date:"F j, Y" }} {%if event.EventDay%} {%if event.pub_date|date:"F j, Y" != event.EventDay|date:"F j, Y"%}| Event happened on {{ event.EventDay|date:"F j, Y" }} {%endif%}{%endif%}| This event has {{ ratio_all|length }} 
+ gender ratio reports{{ratio_all|length|pluralize}}.
+ {%if event.Event_URL%}<br/>Event URL: <a href="{{event.Event_URL}}">{{event.Event_URL}}</a>{%endif%}
+</span><br/><br/>
+
+
+{{stat_info}}
+
+</div>
+{%for ratio in ratio_all%}
+<div class="grey">Gender Ratio Report {{forloop.counter}}</div>
+<div class="content">
+<span class="smalltxt">Counting {{ratio.WhatRatio|lower}}</span><br />
+
+<table>
+
+<tr><td style="width:300px;">women: {{ratio.Women}}</td><td style="width:350px;"><div style="border:1px solid #564b47;"><img src="/css/images/barchart.gif" height="14" width="{% percentage_design ratio.Women ratio.Men ratio.Other %}" /></div></td> <td>{%percentage ratio.Women ratio.Other ratio.Men%}%</td></tr> 
+<tr><td style="width:300px;">men: {{ratio.Men}} </td><td style="width:350px;"> <div style="border:1px solid #564b47;"><img src="/css/images/barchart.gif" height="14" width="{%percentage_design ratio.Men ratio.Women ratio.Other %}" /></div></td><td>{%percentage ratio.Men ratio.Women ratio.Other %}%</td></tr> 
+<tr><td >other:  {{ ratio.Other}}</td><td style="width:350px;"><div style="border:1px solid #564b47; width:350px;"><img src="/css/images/barchart.gif" height="14" width="{% percentage_design ratio.Other ratio.Women ratio.Men  %}" /></div></td> <td>{%percentage ratio.Other ratio.Women ratio.Men %}%</td></tr> 
+<tr><td>Event Description: {{ ratio.ShortDescription}} </td><td></td><td></td></tr>
+</table>
+
+
+
+<span class="smalltxt">Entered on: {{ ratio.pub_date|date:"F j, Y" }}</span><br />
+
+
+{%ifequal user ratio.created_by %}
+<br/>
+<form action="/delete/" method="GET">
+<input type="submit" value="-" style="font-style:bold;"> Delete this ratio?<br/> <br/>
+<input type="hidden" name="ratio" value="{{ratio.key}}">
+<input type="hidden" name="multi" value="0">
+
+</form>
+
+<form action="/addstatsform/" method="POST">
+<input type="hidden" name="key" value="{{event.key}}"/>
+<input type="hidden" name="update1" value="yes"/>
+<input type="hidden" name="Women" value="{{ratio.Women}}"/>
+<input type="hidden" name="Men" value="{{ratio.Men}}"/>
+<input type="hidden" name="Other" value="{{ratio.Other}}"/>
+<input type="hidden" name="ShortDescription" value="{{ratio.ShortDescription}}"/>
+<input type="submit" name="update" value="u"> Update this ratio?<br/> <br/>
+
+
+</form>
+
+
+
+
+{% endifequal %}
+</div>
+<br/>
+{%endfor%}
+
+
+<div class="grey">Would you like to add more statistics to this event?</div>
+<div class="content">
+
+<form action="/addstatsform/" method="POST">
+<input type="hidden" name="key" value="{{event.key}}"/>
+
+
+{% ifequal stats 1 %}
+<br/>
+This event also has {{stats_in}} <a href="/showstats/{{event.key}}/">related statistics</a>.
+<br/>
+{% endifequal %}
+
+
+
+{% ifnotequal addstats 1%}  
+<br/>
+<input class="add" type="submit" name="ratio" value="+"/> ADD the gender ratio as you counted it.
+{%else%}
+<br/>
+
+
+<input type="submit" name="otherstats" value="+"/> ADD related statistics here.<br/>
+{% endifnotequal %}
+</form>
+
+<br />
+
+{%if event.Address.latitude %}
+
+
+<br/>location: {{event.Address.latitude}}, {{event.Address.longitude}} {%ifequal user event.created_by %}<a href="/delete_address/{{event.key}}/?event=event">delete location</a>{%endifequal%}<br/>
+
+<div id="map" style="width: 500px; height: 300px"></div>
+  
+{%else%}
+
+{%ifequal addgeotag 1 %}
+<form action="/Geotag/" method="POST">
+<input type="submit" value="+"/> ADD a geotag  <br/> 
+<input type="hidden" name="event" value="{{event.key}}">
+<br>
+
+
+{%endifequal%}
+
+{%endif%}
+<br/>
+<div style="text-align:right;"><a name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Share</a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>&nbsp;<br/><a href="http://twitter.com/home?status=Event {{event.Event}} {%ave ratio_all%} http://b-counted.appspot.com{{event.get_absolute_url}}" title="Click to share this post on Twitter"><img src="/css/images/twitter.png" /></a>&nbsp;</div>
+
+
+</div> 
+
+</div> 
+</form>
+
+{% endblock %}

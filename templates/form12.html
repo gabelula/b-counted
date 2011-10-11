@@ -1,0 +1,66 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="/CountNow1/" method="POST">
+
+<table id="tab">
+<tbody>
+
+{% if multisession %}
+
+You entered "{{ParentEvent}}" as the title of the multisession event and {{Event}} as the session title. 
+
+{%if blah%}
+<tr><td colspan="2">Multisession Events with similar names were found. To avoid duplicates, please select your event below. <br />Or make no selection to keep the event name you entered.</td></tr>
+<tr><td>
+<tr><td colspan="2">
+      <select name="ParentEvent1">
+      	{% for event in results %}
+        
+        	<option>{{ event|escape }}</option>
+        
+      {% endfor %}
+    </select>
+{% endif %}
+
+{% endif %}
+
+
+<tr><td colspan="2">
+
+ Please enter an address here so that your posting can be geotagged (optional):
+</td>
+</tr>
+<tr><td>Street:</td><td>{{form.Street}}</td></tr>
+<tr><td>City:</td><td>{{form.City}}</td></tr>
+<tr><td>Zip</td><td>{{form.Zip}}</td></tr>
+<tr><td>State</td><td>{{form.State}}</td></tr>
+<tr><td>Country:</td><td>{{form.Country}}</td></tr>
+
+
+</tbody></table>
+
+<br>
+{% if not multisession %}
+<input type="hidden" name="Event" value="{{Event}}"/>
+{%else%}
+<input type="hidden" name="ParentEvent" value="{{ParentEvent}}"/>
+<input type="hidden" name="Event" value="{{Event}}"/>
+{%endif%}
+
+<input type="hidden" name="Women" value="{{Women}} "/>
+<input type="hidden" name="Men" value="{{Men}}"/>
+<input type="hidden" name="Other" value="{{Other}}"/>
+<input type="hidden" name="user" value={{user}}/>
+<input type="hidden" name="Event_URL" value="{{Event_URL}}"/>
+<input type="hidden" name="ShortDescription" value="{{ShortDescription}}"/>
+
+<span class = "add"><input value="ADD" type="submit"></span>
+<br/>
+<br/ >
+<br/ >
+</form>
+
+{% endblock %}

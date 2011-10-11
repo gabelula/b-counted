@@ -1,0 +1,14 @@
+Be Counted is built on Google App Engine for Python.
+The SDK can be downloaded here http://code.google.com/appengine/downloads.html
+
+Note:
+Because Be Counted is built on Google App Engine, some database things in Django (such as joins) will not work. Also GAE has some classes that are different from Django.  
+The first time you start the App Engine Test server, there will be errors when you click on "All Events" and "Stats". They happens because the datastore is empty.
+I commented out all calls to the update_twitter function. 
+
+The main views.py and models.py is in the folder labeled counter
+The templates are in the templates folder
+The CSS style sheet is in the media folder.
+The image files are in media/css/images
+Be Counted uses tweepy for posting to Twitter.
+

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+m
+{% block content %}
+<div id="corners_up">ADD A RATIO</div>
+
+<div id="border">
+<div id="notab">
+{% if not user %}
+<div class="grey">Please <a href="{% auth_login_url CountNow/?ShowMultisession=1%}">login</a> with your Google ID before entering information.</div>
+{% endif %}
+<br/>
+<div class="content">
+<form action="/addstats/" method="POST">
+<table class="tab1">
+
+{%if error%}
+<tr><td colspan="2" style="color: #FF0000;">Please complete the form.</td></tr>
+{%endif%}
+<tr><td>Who are you counting? <span class="red">*</span></td><td><select name="WhatRatio" id="id_WhatRatio">
+<option value="Everyone present: Audience, speakers/panelists, organizers, etc.">Everyone: audience, speakers/panelists, organizers, etc.</option>
+<option value="Audience">Audience</option>
+<option value="just the speakers/panelists">just the speakers/panelists</option>
+<option value="just the organizers">just the organizers</option>
+<option value="Other">Other</option>
+</select></td></tr>
+<tr><td># women:</td><td>{{ratioform.Women}}</td></tr>
+<tr><td># men:</td><td>{{ratioform.Men}}</td></tr>
+<tr><td># other:</td><td>{{ratioform.Other}}</td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Event report/comment: &nbsp; &nbsp;</td><td>{{ratioform.ShortDescription}}</td></tr>
+
+</table>
+</div>
+{% if CheckContributor %}
+<br/>
+<div class="grey">Please enter some statistics about yourself!</div>
+
+ <div class="content">
+	<br/>
+	<table class="tab1">
+
+		<tr><td>Gender <span class="red">*</span></td><td><select name="gender"><option>----</option><option>female</option><option>male</option><option>other</option></select></td></tr>
+		<tr><td colspan="2"></tr>
+	</table>
+</div>
+	
+{% endif %}
+
+
+
+<br>
+{%ifequal multisession 1 %}
+<input type="hidden" name="multisession" value="yes"/>
+{%endifequal%}
+<input type="hidden" name="key" value="{{key}}"/>
+
+
+<span class = "add"><input value="ADD" name="addratio" type="submit"> </span>
+<br/>
+<br/ >
+<br/ >
+</form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="corners_up" style="vertical-align:top; padding-top:0px;"><form name=form> 
+			<select name="fieldname" size="1" style="vertical-align:top; margin-top:3px;"
+				onChange="openDir( this.form )"> 
+				<option value="/all">ALL EVENTS</option> 
+				<option value="/recent">MOST RECENT ACTIVITY</option> 
+				<option value="/all_multisession">ALL MULTISESSION EVENTS</option> 
+			</select> 
+
+</div>
+
+<div id="border">
+ <div id="notab">
+
+	<div class="grey">Browse by Event Name
+	</div>
+       </form> 
+         <br /> 
+   	{% for p in page.paginator.pages %}
+      
+    	<span class="content">
+       	<a href="?page={{ p.number }}" style="text-decoration:none;">
+        	<input value="{{p}}" type="submit" class="add" /></a>&nbsp;&nbsp;&nbsp;
+    	</span>
+
+    	{% endfor %}
+	<br/>
+    
+ {% for object in page.object_list %}
+ 		<br />
+ 		<div class="grey">
+			Event Title: <a href= "{{object.get_absolute_url}}">{{ object.Event|escape}}</a>
+		</div> 
+		<div class="content">	
+			{%if object.Parent %}
+				This event is part of a multisession event: <a href = "{{object.Parent.get_absolute_url}}"> {{object.Parent.Name}}</a> <br/>
+
+			{%endif%}
+			<span class="smalltxt">Entered on: {{ object.pub_date|date:"F j, Y" }}</span><br />
+		</div>
+   
+<br/>
+  {% endfor %}
+
+</div> 
+
+{% endblock %}

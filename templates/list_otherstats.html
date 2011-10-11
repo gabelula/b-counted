@@ -1,0 +1,18 @@
+
+
+{% extends "base.html" %}
+
+{% block content %}
+<div id="tab">
+
+Event Title: {{ event.Event|escape}} <br />
+<span class="smalltxt">Entered on: {{ event.pub_date|date:"F j, Y" }}</span><br />
+--------------------------------------------------------
+<br/>
+
+
+</div> 
+
+
+
+{% endblock %}

@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+
+{% load math_filter %}
+
+
+
+
+{%if event.Event%}
+<meta name="title" content="Gender Ratio Report (GRR) for {{event.Event}}" />
+<meta name="description" content="This is a  Gender Ratio Report (GRR) for the event {{event.Event}}: {%ave ratio_all %} Check out more Gender Ratio Reports at http://b-counted.appspot.com. Be Counted is a survey of gender distribution at tech events. Have you been to a tech conference, meeting, or other tech-related event lately? Report the gender ratio on b-counted.appspot.com!" /> 
+{%endif%}
+
+{%if  estimate%} 
+<meta name="title" content="Gender Ratio Report (GRR) for {{multi_event.Name}}" />
+<meta name="description" content="This is a  Gender Ratio Report (GRR) for the event {{multi_event.Name}}: {{estimate}} Check out more Gender Ratio Reports at http://b-counted.appspot.com. Be Counted is a survey of gender distribution at tech events. Have you been to a tech conference, meeting, or other tech-related event lately? Report the gender ratio on b-counted.appspot.com!" /> 
+
+
+
+{%else%}
+
+<title>Be counted!</title>
+{%endif%}
+
+
+
+
+
+<link rel="stylesheet" type="text/css" media="screen" href="/css/counter.css">
+<script language="JavaScript"> 
+
+function openDir( form ) { 
+
+	var newIndex = form.fieldname.selectedIndex; 
+
+	if ( newIndex == 0 ) { 
+
+		alert( "Please select a location!" ); 
+
+	} else { 
+
+		cururl = form.fieldname.options[ newIndex ].value; 
+
+		window.location.assign( cururl ); 
+
+	} 
+
+} 
+
+</script> 
+
+
+
+{%if event.Address.latitude %}
+ <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true&amp;key=ABQIAAAAdWU8kqXPfqKTe2f14mRTRBTPx41WbZyohqeiEeQUYfqQG2tUcRT07xsjA0TI01p0l9Ykwc-vKcCTBQ" type="text/javascript">
+ </script>
+
+    
+<script type="text/javascript">
+<!--
+//<![CDATA[
+
+    function load() {
+      if (GBrowserIsCompatible()) {
+	   
+	   var map = new GMap2(document.getElementById("map"));
+	   map.addControl(new GLargeMapControl());
+	   map.addControl(new GMapTypeControl());
+	   map.setCenter(new GLatLng({{event.Address.latitude}},{{event.Address.longitude}}), 13);
+
+	   // Creates a marker at the given point with the given number label
+	   function createMarker(point) {
+ 	   		var marker = new GMarker(point);
+  			GEvent.addListener(marker, "click", function() {
+    			marker.openInfoWindowHtml('{{event.Address.Street}} <br/> {{event.Address.City}}, {{event.Address.State}} {{event.Address.Zip}}<br/>');
+ 	   	 	 });
+	 	  return marker;
+		}
+
+ 	   var point = new GLatLng({{event.Address.latitude}},{{event.Address.longitude}});
+ 	    map.addOverlay(createMarker(point, 1));
+
+      }
+    }
+
+    //]]>
+
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+//-->
+
+</script>
+{% endif %}
+
+{%if  multi_event.Address.latitude %}
+
+ <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true&amp;key=ABQIAAAAdWU8kqXPfqKTe2f14mRTRBTPx41WbZyohqeiEeQUYfqQG2tUcRT07xsjA0TI01p0l9Ykwc-vKcCTBQ" type="text/javascript"></script>
+
+    
+<script type="text/javascript">
+<!--
+//<![CDATA[
+
+    function load() {
+      if (GBrowserIsCompatible()) {
+	   
+	   var map = new GMap2(document.getElementById("map"));
+	   map.addControl(new GLargeMapControl());
+	   map.addControl(new GMapTypeControl());
+	   map.setCenter(new GLatLng({{multi_event.Address.latitude}}, {{multi_event.Address.longitude}}), 13);
+
+	   // Creates a marker at the given point with the given number label
+	   function createMarker(point) {
+ 	   		var marker = new GMarker(point);
+  			GEvent.addListener(marker, "click", function() {
+    			marker.openInfoWindowHtml('{{multi_event.Address.Street}} <br/> {{multi_event.Address.City}}, {{multi_event.Address.State}} {{multi_event.Address.Zip}}<br/>' );
+ 	   	 	 });
+	 	  return marker;
+		}
+
+ 	   var point = new GLatLng({{multi_event.Address.latitude}},{{multi_event.Address.longitude}});
+ 	    map.addOverlay(createMarker(point, 1));
+
+      }
+    }
+
+    //]]>
+
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+//-->
+</script>
+
+
+
+
+{% endif %}
+
+
+</head>
+
+
+<body {%if  multi_event.Address.latitude %} onload="load()" onunload="GUnload()" {% endif %}{%if event.Address.latitude %} onload="load()" onunload="GUnload()" {% endif %}>
+     {% if user %}
+        {{ user}} logged in. <a href="{% auth_logout_url /CountMe/ %}">Logout</a> | <a href="/about_me/">You</a>
+    {% else %}
+        Please <a href="{% auth_login_url /CountMe/%}">login</a> with your Google ID before submitting your posting.
+    {% endif %} | <a href="/about">About this site</a> |<a href="http://code.google.com/p/be-counted/">Source Code </a> | <a href="/feed">RSS</a> | <a href="http://www.twitter.com/be_counted">Twitter</a>
+	
+
+	<div id="content">
+	<div>
+		<img src="/css/images/logo.png" style="line-height: 0px; display: inline; margin: 0px;">
+	</div>
+		<div id="bg"> 
+			<div id="box">
+			
+			<form style="margin:0px; padding:0px;" action="/navi/" method="POST">
+			<span class="special">
+			
+			<br />&nbsp;<input value="ADD EVENT" name="submit" type="submit">&nbsp;&nbsp;<input value="ADD MULTI-SESSION EVENT" name="submit" type="submit">&nbsp;&nbsp;&nbsp;<input value="ALL EVENTS" name="submit" type="submit">&nbsp;&nbsp;&nbsp;<input value="WHY?" name="submit" type="submit">&nbsp;&nbsp;&nbsp;<input value="FAQ" name="submit" type="submit">&nbsp;&nbsp;<input value="STATS" name="submit" type="submit">&nbsp;&nbsp;<input value="API" name="submit" type="submit">
+			</span>
+			</form>
+			
+		<br/>
+	
+
+
+	{% block content %}{% endblock %}
+	
+			</div>
+		<div id="corners_down"> &nbsp;</div>
+	
+		</div>
+	
+	
+<br />
+
+
+
+
+		</div>
+		<img src="/css/images/bottom.png">
+
+	<div style="text-align:center; background-color:#FFFFFF";> Source code: <a href="http://code.google.com/p/be-counted/">code.google.com/p/be-counted/</a>
+	</div>
+	
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4975203-3");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+</body></html>

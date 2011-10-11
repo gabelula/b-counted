@@ -1,0 +1,57 @@
+
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="corners_up" style="vertical-align:top; padding-top:0px;"><form name=form> 
+			<select name="fieldname" size="1" style="vertical-align:top; margin-top:3px;"
+				onChange="openDir( this.form )"> 
+				<option value="/all">ALL EVENTS</option> 
+				<option selected value="/recent">MOST RECENT ACTIVITY</option> 
+				<option value="/all_multisession">ALL MULTISESSION EVENTS</option> 
+			</select> 
+
+</div>
+
+<div id="border">
+
+
+
+<div id="notab">
+
+{%for y in zo %}
+		{% for x in y %}
+		
+		{% if forloop.first %} 
+			<div class="grey">Event title: <a href ="{{x.get_absolute_url}}">{{x.Event}}</a> </div>
+			<div class="content">
+			
+			<span class = "smalltxt">published  on {{x.pub_date|date:"F j, Y  @ H:i" }}<br/>
+			
+			</span>	
+			{% if x.Parent %}
+				This session is part of the multisession event <a href = "{{x.Parent.get_absolute_url}}">{{x.Parent.Name}}</a><br/>
+			{%endif%}
+		{% else %}
+			This session has an average of {{x|safe}}
+			
+			
+			<br />
+			<br />
+			
+		</div>
+		
+			{% endif %}
+			
+			
+	{% endfor %}
+{% endfor %}
+<span class="smalltxt">&nbsp;&nbsp;<a href="/all">>>All events in alphabetical order</a></span>
+<br/>
+
+</form> 
+
+</div> 
+
+{% endblock %}

@@ -1,0 +1,130 @@
+
+
+
+
+{% extends "base.html" %}
+{% load math_filter %}
+
+{% block content %}
+<div id="corners_up">Multi-Session Event Title: {{ event.Name|escape}}</div>
+<div id="border">
+<div id="notab">
+
+<div class="content">
+
+The following numbers comprise the total participants of the multi-session event:<br/><a href="{{event.get_absolute_url}}">{{event.Name}}</a><br/>
+
+<span class="smalltxt">Entered on: {{ event.pub_date|date:"F j, Y" }} 
+{%if multi_event.Event_URL%}<br/>Event URL: <a href="{{event.Event_URL}}">{{multi_event.Event_URL}}</a>{%endif%}
+</span><br/><br/>
+
+
+{{stat_info}}
+
+</div>
+{%for ratio in ratio_all%}
+<div class="grey">Gender Ratio Report {{forloop.counter}}</div>
+<div class="content">
+
+
+
+<table>
+<tr><td style="width:300px;">women: {{ratio.Women}}</td><td style="width:350px;"><div style="border:1px solid #564b47;"><img src="/css/images/barchart.gif" height="14" width="{% percentage_design ratio.Women ratio.Men ratio.Other %}" /></div></td> <td>{%percentage ratio.Women ratio.Other ratio.Men%}%</td></tr> 
+<tr><td style="width:300px;">men: {{ratio.Men}} </td><td style="width:350px;"> <div style="border:1px solid #564b47;"><img src="/css/images/barchart.gif" height="14" width="{%percentage_design ratio.Men ratio.Women ratio.Other %}" /></div></td><td>{%percentage ratio.Men ratio.Women ratio.Other %}%</td></tr> 
+<tr><td style="width:300px;">other:  {{ ratio.Other}}</td><td style="width:350px;"><div style="border:1px solid #564b47; width:350px;"><img src="/css/images/barchart.gif" height="14" width="{% percentage_design ratio.Other ratio.Women ratio.Men  %}" /></div></td> <td>{%percentage ratio.Other ratio.Women ratio.Men %}%</td></tr> 
+<tr><td>Event Description: {{ ratio.ShortDescription}} </td><td></td><td></td></tr>
+</table>
+
+
+<span class="smalltxt">Entered on: {{ ratio.pub_date|date:"F j, Y" }}</span><br />
+
+
+{%ifequal user ratio.created_by %}
+<br/>
+<form action="/delete/" method="GET">
+<input type="submit" value="-"> Delete this ratio?<br/> <br/>
+<input type="hidden" name="ratio" value="{{ratio.key}}">
+<input type="hidden" name="multi" value="1">
+
+</form>
+
+<form action="/addstatsform/" method="POST">
+<input type="hidden" name="key" value="{{event.key}}"/>
+<input type="hidden" name="update1" value="yes"/>
+<input type="hidden" name="Women" value="{{ratio.Women}}"/>
+<input type="hidden" name="Men" value="{{ratio.Men}}"/>
+<input type="hidden" name="Other" value="{{ratio.Other}}"/>
+<input type="hidden" name="ShortDescription" value="{{ratio.ShortDescription}}"/>
+<input type="hidden" name="multisession" value="yes">
+<input type="submit" name="update" value="u"> Update this ratio?<br/> <br/>
+
+</form>
+
+
+
+
+{% endifequal %}
+<br/>
+</div>
+
+{%endfor%}
+
+
+<div class="grey">Would you like to add more statistics to this event?</div>
+<div class="content">
+
+<form action="/addstatsform/" method="POST">
+<input type="hidden" name="key" value="{{event.key}}"/>
+<input type="hidden" name="multisession" value="1"/>
+
+
+{% ifequal stats 1 %}
+
+This event also has {{stats_in}} <a href="/showstats/{{event.key}}?multi=1">related statistics</a>.
+
+{% endifequal %}
+
+
+
+{% ifnotequal addstats 1%}  
+<br/>
+<input class="add" type="submit" name="ratio" value="+"/> ADD the gender ratio as you counted it.
+{%else%}
+<br/>
+
+
+<input type="submit" name="otherstats" value="+"/> ADD related statistics here.<br/>
+{% endifnotequal %}
+</form>
+
+<br />
+
+{%ifequal addgeotag 1 %}
+<form action="/Geotag/" method="POST">
+<input type="submit" value="+"/> ADD a geotag  <br/> 
+<input type="hidden" name="multi_event" value="{{event.key}}">
+</br>
+</form>
+<br/>
+<br/>
+{%endifequal%}
+
+
+{%if event.Address.latitude%}
+
+<br/>location: {{event.Address.latitude}}, {{event.Address.longitude}} <a href="/delete_address/{{event.key}}/?event=multi_event">delete location</a><br/>
+
+<div id="map" style="width: 500px; height: 300px"></div>
+  
+
+{%endif%}
+
+
+</div> 
+</div> 
+
+
+
+
+
+{% endblock %}

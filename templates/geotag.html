@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="corners_up">ADD AN EVENT TO THE DATABASE</div>
+
+<div id="border">
+
+<br />
+<form action="/Geotag/" method="POST">
+<table id="tab">
+<tbody>
+
+
+{%if error%}
+<tr><td colspan="2" style="color: #FF0000;">Sorry. The geocoder did not recognize this address.</td></tr>
+{%endif%}
+
+
+<tr><td colspan="2">
+{%if not multi_event %}
+
+ Please enter the address of the place where the event happened here:<br/>
+ <span class="smalltxt">Please avoid accent characters such as for example &uuml;, &auml;, &ouml;, etc. </span><br/><br/>
+</td>
+</tr>
+<tr><td>Street:</td><td>{{form.Street}}</td></tr>
+<tr><td>City:</td><td>{{form.City}}</td></tr>
+<tr><td>State</td><td>{{form.State}}</td></tr>
+<tr><td>Zip</td><td>{{form.Zip}}</td></tr>
+<tr><td>Country:</td><td>{{form.Country}}</td></tr>
+{% endif %}
+
+{% if event and multi_event%}
+ Please enter the address of the place where the event happened here:<br/>
+ <span class="smalltxt">Please avoid accent characters such as for example &uuml;, &auml;, &ouml;, etc.</span>
+</td>
+</tr>
+<tr><td>Street:</td><td>{{form.Street}}</td></tr>
+<tr><td>City:</td><td>{{form.City}}</td></tr>
+<tr><td>State</td><td>{{form.State}}</td></tr>
+<tr><td>Zip</td><td>{{form.Zip}}</td></tr>
+<tr><td>Country:</td><td>{{form.Country}}</td></tr>
+
+<tr><td colspan="2">
+<br />
+Is the address of your multi-session event the same? <br />If no, enter the address for the multi-session event here.
+</td>
+</tr>
+<tr><td><input type="radio" name="same" value="yes"/> yes </td><td><input type="radio" name="same" value="no"/> no </td></tr>
+
+<tr><td>Street:</td><td><input type="text" name="Street1" id="id_Street1" /></td></tr>
+<tr><td>City:</td><td><input type="text" name="City1" id="id_City1" /></td></tr>
+<tr><td>State</td><td><input type="text" name="State1" id="State1" /></td></tr>
+<tr><td>Zip</td><td><input type="text" name="Zip1" id="id_Zip1" /></td></tr>
+
+<tr><td>Country:</td><td><input type="text" name="Country1" id="Country1" /></td></tr>
+
+{% endif %}
+
+{% if multi_event and not event %}
+ Please enter the address of the place where the event happened here:<br/>
+ <span class="smalltxt">Please avoid accent characters such as for example &uuml;, &auml;, &ouml;, etc.</span><br/><br/>
+
+
+<tr><td>Street:</td><td><input type="text" name="Street1" id="id_Street1" /></td></tr>
+<tr><td>City:</td><td><input type="text" name="City1" id="id_City1" /></td></tr>
+<tr><td>State</td><td><input type="text" name="State1" id="State1" /></td></tr>
+<tr><td>Zip</td><td><input type="text" name="Zip1" id="id_Zip1" /></td></tr>
+
+<tr><td>Country:</td><td><input type="text" name="Country1" id="Country1" /></td></tr>
+
+
+{% endif %}
+</tbody></table>
+<div class="content">
+<div class="notab">
+<br />
+{% if not multi_event %}
+<input type="hidden" name="event" value="{{event}}"/>
+{%else%}
+<input type="hidden" name="multi_event" value="{{multi_event}}"/>
+<input type="hidden" name="event" value="{{event}}"/>
+{%endif%}
+
+
+<input type="hidden" name="user" value={{user}}/>
+<input type="hidden" name="tag" value={{tag}}/>
+
+
+
+<br/><span class = "add"><input value="ADD GEOTAG" type="submit"></a> 
+
+
+</div> 
+</div> 
+
+
+</form>
+<br />
+
+{% endblock %}

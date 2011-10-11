@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="corners_up">ADD A SESSION</div>
+
+<div id="border">
+{% if not user %}
+<div id="notab">
+<div class="grey">
+Please <a href="{% auth_login_url /addsessionform/?ratio=0&key={{key}} %}">login</a> with your Google ID before entering information.
+</div></div>{% endif %}
+
+
+<br />
+<form name="counter" action="/CountNow/" method="POST">
+<table id="tab">
+<tbody>
+{%if error%}
+<tr><td colspan="2" style="color: #FF0000;">Please complete the form.</td></tr>
+{%endif%}
+
+<tr><td>Session name: <br/><span class="smalltxt"></span>&nbsp;</td><td style="vertical-align: top;">{{form.Event}}</td></tr>
+<tr><td>Event URL:</td><td>{{form.Event_URL}}<br />&nbsp;</td></tr>
+<tr><td>Date <span class="smalltxt">yyyy-mm-dd</span> </td><td style="vertical-align: top;"><input type="text" name="EventDay" value="{% now "Y-m-d" %}" id="id_EventDay" /></td></tr>
+<tr><td>Twitter hashtag of the event <br/><span class="smalltxt">20 characters max including #</span></td><td style="vertical-align: top;"><input type="text" name="hashtag" value="#" id="id_hashtag" /></td></tr>
+
+<tr><td>Who are you counting? <span class="red">*</span></td><td><select name="WhatRatio" id="id_WhatRatio">
+<option value="Everyone: audience, speakers/panelists, organizers, etc." selected="selected">Everyone present: audience, speakers/panelists, organizers, etc.</option>
+<option value="Audience">Audience</option>
+<option value="just the Speakers/panelists">just the speakers/panelists</option>
+<option value="just the organizers">just the organizers</option>
+<option value="Other">Other</option>
+</select></td></tr>
+<tr><td># women:</td><td>{{ratioform.Women}}</td></tr>
+<tr><td># men:</td><td>{{ratioform.Men}}</td></tr>
+<tr><td># other:</td><td>{{ratioform.Other}}</td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Event report/comment: &nbsp; &nbsp;</td><td>{{ratioform.ShortDescription}}</td></tr>
+
+
+</table>
+
+
+{% if CheckContributor %}
+<br/><br/>
+<div id="notab">
+<div class="grey">
+Please enter some statistics about yourself (statistics will only be displayed in compiled form)</div></div>
+<br/>
+<table id="tab">
+<tr><td width="38%">Gender <span class="red">*</span></td><td width="62%"><select name="gender"><option>----</option><option>female</option><option>male</option><option>other</option></select></td></tr>
+
+</table>
+<br/>
+{% endif %}
+
+<tr> <td colspan="2"></td></tr>
+
+</table>
+
+<br>
+<input type="hidden" name=session value="1" >
+<input type="hidden" value="{{key}}" name="key">
+<input type="hidden" value="{{blah}}" name="blah">
+<input type="hidden" value="yes" name="multisession"/>
+<span class = "add"><input value="ADD" type="submit">  </span>
+</form>
+<br/>
+<br/ >
+
+
+
+
+{% endblock %}

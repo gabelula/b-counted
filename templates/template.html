@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+
+
+<title>Stand up and be counted!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" media="screen" href="/css/counter.css">
+</head><body>
+<div id="content">
+<img src="/css/images/logo.gif">
+<div id="bg"> 
+
+
+<div id="box">
+<br />
+
+<a href="/"><input value="ADD AN EVENT" type="submit"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/all"><input value="ALL EVENTS" type="submit"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/why"><input value="WHY?" type="submit"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/feed"><input value="RSS" type="submit"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.twitter.com/an9"><input value="TWITTER" type="submit"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/help"><input value="HELP" type="submit"></a>
+
+<br />
+<br />
+<div id="border">
+<br />
+<form action="/CountNow/" method="POST">
+<table id="tab">
+<tbody><tr><td>Event name:</td><td>{{ form.Event }}</td></tr>
+<tr><td>Event URL:</td><td>{{form.Event_URL}}</td></tr>
+<tr><td># women:</td><td>{{form.Women}}</td></tr>
+<tr><td># men:</td><td>{{form.Men}}</td></tr>
+<tr><td># other:</td><td>{{form.Other}}</td></tr>
+<tr><td>Event description / comment:</td><td>{{form.ShortDescription}}</td></tr>
+<tr> <td colspan="2">
+<br>
+<br>
+ Please enter an address here so that your posting can be geotagged:<br>
+</td>
+</tr>
+<tr><td>Street:</td><td>{{form.Street}}</td></tr>
+<tr><td>City:</td><td>{{form.City}}</td></tr>
+<tr><td>Zip</td><td>{{form.Zip}}</td></tr>
+<tr><td>Country:</td><td>{{form.Country}}</td></tr>
+</tbody></table>
+
+<br>
+<input value="ADD" type="submit">
+<br/>
+<br/ >
+<br/ >
+</div>
+</div>
+<br>
+</form>
+
+
+
+</div>
+<img src="/css/images/bottom.gif">
+<div>
+
+</div></div></body></html>

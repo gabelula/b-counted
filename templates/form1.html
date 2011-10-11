@@ -1,0 +1,117 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div id="corners_up">ADD AN EVENT TO THE DATABASE</div>
+<div id="border">
+<div id="notab">
+
+
+<form action="/CountNow1/" method="POST">
+
+<div class="grey">Contributors</div> 
+<div class="content">
+<table>
+{%if error%}
+<tr><td colspan="2" style="color: #FF0000;">Sorry there was an error - please add the missing information!</td></tr>
+{%endif%}
+{% if multisession %}
+<tr><td colspan = "2"><span style="color: #FF0000;">Is your multisession event already in the database? Please check below:</span><br/>
+<strong>Multisession Events by Name</strong><br/>
+    {% for p in page.paginator.pages %}
+
+    
+          <a href="/all_multisession?page={{ p.number }}&Event={{Event}}&Women={{Women}}&Men={{Men}}&Other={{Other}}&Event_URL={{Event_URL}}&ShortDescription={{ShortDescription}}&add=1&key={{key}}">
+             {{ p }}
+          </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    
+
+    {% endfor %}
+
+
+
+<br />
+<br />
+</td></tr>
+
+<tr><td colspan="2">If it is not, please enter the Name of the Multisession event here: </td></tr>
+<tr><td></td><td>{{parentform.Name}}</td></tr>
+<br />
+<br />
+{% endif %}
+{% if ParentEvent %}
+
+blah<br/> 
+
+{% endif %}
+
+
+
+<tr><td colspan="2">
+
+
+ Please enter an address here so that your posting can be geotagged (optional):
+</td>
+</tr>
+<tr><td>Street:</td><td>{{form.Street}}</td></tr>
+<tr><td>City:</td><td>{{form.City}}</td></tr>
+<tr><td>State</td><td>{{form.State}}</td></tr>
+<tr><td>Zip</td><td>{{form.Zip}}</td></tr>
+<tr><td>Country:</td><td>{{form.Country}}</td></tr>
+
+{% if multisession %}
+
+<tr><td colspan="2">
+Is the address of your multisession event the same?
+</td>
+</tr>
+<tr><td><input type="radio" name="same" value="yes"/> yes </td><td><input type="radio" name="same" value="no"/> no </td></tr>
+
+<tr><td>Street:</td><td><input type="text" name="Street1" id="id_Street1" /></td></tr>
+<tr><td>City:</td><td><input type="text" name="City1" id="id_City1" /></td></tr>
+<tr><td>State</td><td><input type="text" name="State1" id="State1" /></td></tr>
+<tr><td>Zip</td><td><input type="text" name="Zip1" id="id_Zip1" /></td></tr>
+
+<tr><td>Country:</td><td><input type="text" name="Country1" id="Country1" /></td></tr>
+
+
+
+
+{% endif %}
+{% if CheckContributor %}
+<tr><td colspan="2">
+<br/>
+
+<strong> Please enter some statistics about yourself:</strong>
+</td>
+</tr>
+<tr><td>Gender</td><td><select name="gender"><option>----</option><option>female</option><option>male</option><option>other</option></select></td></tr>
+{% endif %}
+
+</tbody></table>
+
+<br>
+{% if not multisession %}
+<input type="hidden" name="Event" value="{{Event}}"/>
+{%else%}
+<input type="hidden" name="ParentEvent" value="{{ParentEvent}}"/>
+<input type="hidden" name="Event" value="{{Event}}"/>
+{%endif%}
+
+<input type="hidden" name="Women" value="{{Women}} "/>
+<input type="hidden" name="Men" value="{{Men}}"/>
+<input type="hidden" name="Other" value="{{Other}}"/>
+<input type="hidden" name="user" value={{user}}/>
+<input type="hidden" name="Event_URL" value="{{Event_URL}}"/>
+<input type="hidden" name="EventDay" value="{{EventDay}}"/>
+<input type="hidden" name="ShortDescription" value="{{ShortDescription}}"/>
+<input type="hidden" name="key" value="{{key}}"/>
+
+
+<br/><input value="ADD" type="submit"> &nbsp;&nbsp;&nbsp; <input value="ADD + GEOTAG" type="submit">  
+<br/>
+<br/ >
+<br/ >
+</form>
+
+
+{% endblock %}

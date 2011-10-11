@@ -1,0 +1,75 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+{%ifequal multi 1 %}
+<div id="corners_up">Additional Statistics for {{StatName.ParentEvent}}</div>
+
+<div id="border">
+<div id="notab">
+
+
+<div class = "grey"> </div>
+<div class="content">
+<span class="smalltxt">Entered on: {{ StatName.ParentEvent.pub_date|date:"F j, Y" }}</span><br />
+
+<br/>
+
+
+
+{% else %}
+<div id="corners_up">Additional Statistics </div>
+<div id="border">
+<div id="notab">
+
+<div class = "grey"> Event Title: <a href="{{StatName.event.get_absolute_url}}">{{StatName.event}}</a> </div>
+<div class="content">
+<span class="smalltxt">Entered on: {{StatName.event.pub_date|date:"F j, Y" }}</span><br />
+
+
+
+
+
+
+
+{% endifequal %}
+
+{{StatName.name}}
+<br/>
+<br/>
+
+{% for s in stat %}
+
+{{s.stat}} {{s.num}}
+<br/>
+
+
+
+{% endfor %}
+<br />
+
+
+{% ifequal StatName.created_by user %} 
+
+<form action="/delete_stat/" method="GET">
+<input type="submit" value="-"> Delete this statistic?<br/> <br/>
+<input type="hidden" name="stat_key" value="{{StatName.key}}">
+{%ifequal multi 1 %}
+<input type="hidden" name="multi" value="1">
+{%endifequal%}
+</form>
+<br/>
+
+
+<br/>
+
+
+
+{% endifequal %}
+
+</div> 
+
+</div> 
+
+
+{% endblock %}

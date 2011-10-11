@@ -1,0 +1,116 @@
+
+
+{% extends "base.html" %}
+{% load math_filter %}
+
+{% block content %}
+<div id="corners_up">Multi-Session Event: {{ multi_event.Name|escape}}</div>
+<div id="border">
+<div id="notab">
+<div class="content">
+
+<span class="smalltxt">Entered on: {{ multi_event.pub_date|date:"F j, Y" }}</span><br/>
+{%if multi_event.Event_URL%}<br/>Event URL: <a href="{{event.Event_URL}}">{{multi_event.Event_URL}}</a>{%endif%}
+{%ifnotequal estimate 0 %}
+
+Estimated gender ratio (average): <a href="/multisession-ratio/{{multi_event.key}}/">{{estimate}}</a>
+{% else %}
+
+{% ifequal user multi_event.created_by %}
+
+<form action="/addsessionform/" method="GET"><input type="hidden" name="key" value="{{multi_event.key}}"/>
+
+<input type="hidden" name="multisession" value="yes"/>
+<input type="hidden" name="ratio" value="1"/>
+<input type="submit" name="session" value="+"/> Add an gender ratio estimate to this multisession event.<br/>
+
+</form>
+
+{% endifequal %}
+{% endifnotequal %}
+<br/>
+<br/>
+</div>
+<div class="grey">This event has {{multi_event.NumEvents}} session(s) </div>
+<div class="content">
+<br/>
+
+{%for y in zo %}
+
+		{% for x in y %}
+			{% if forloop.first %} 
+			
+			
+			<span class="smalltxt">Entered on: {{ x.pub_date|date:"F j, Y" }}</span><br/>
+			
+			Session name: <a href ="{{x.get_absolute_url}}">{{x.Event}}</a> 
+			
+			{% else %}
+			<br />
+			This session has an average of {{x|safe}}
+		
+			<br />
+
+	<br />
+
+		
+			{% endif %}
+			
+			
+	{% endfor %}
+	
+
+		
+
+	
+{% endfor %}
+
+<form action="/addsessionform/" method="GET">
+<input type="hidden" name="ratio" value="0"/>
+<input type="hidden" name="key" value="{{multi_event.key}}"/>
+<input type="hidden" name="multisession" value="yes"/>
+<input type="submit" name="session" value="+"/> Add another session to this multisession event.<br/>
+</form>
+
+<br />
+<br />
+
+</div>
+{% ifequal addgeotag 1%}
+<div class="grey">Would you like to add more statistics to this event?</div>
+<div class="content">
+<br/>
+
+
+
+<form action="/Geotag/" method="POST">
+<br/>
+<input type="submit" name="session" value="+"/> Add a geotag to this multisession event.<br/>
+<input type="hidden" name="multi_event" value="{{multi_event.key}}">
+{%if event %}
+
+<input type="hidden" name="event" value="{{event}}">
+{% endif %}
+</form>
+</div>
+{%endifequal%}
+
+{%if multi_event.Address.latitude %}
+<div class="content">
+<br/>location: {{multi_event.Address.latitude}}, {{multi_event.Address.longitude}}{%ifequal user multi_event.created_by%} <a href="/delete_address/{{multi_event.key}}/?event=multi_event">delete location</a>{%endifequal%}<br/>
+
+<div id="map" style="width: 500px; height: 300px"></div>
+</div>  
+{%endif%}
+<br/>
+{%ifnotequal estimate v0%}
+
+<div style="text-align:right;"><a name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Share</a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>&nbsp;<br/><a href="http://twitter.com/home?status=Event {{multi_event.Name}} {{estimate}} http://b-counted.appspot.com{{multi_event.get_absolute_url}}" title="Click to share this post on Twitter"><img src="/css/images/twitter.png" /></a>&nbsp;</div>
+{%endifnotequal%}
+<br/>
+
+</div> 
+
+
+
+{% endblock %}

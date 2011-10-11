@@ -1,0 +1,45 @@
+
+
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+<div id="tab">
+
+
+
+
+
+
+    Browse by Event Name:<br/>
+    {% for p in page.paginator.pages %}
+
+    
+          <a href="/all_multisession?page={{ p.number }}">
+             {{ p }}
+          </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    
+
+    {% endfor %}
+  
+ {% for object in page.object_list %}
+
+ 		<br/><br/>
+		Event Title: <a href= "{{object.get_absolute_url}}">{{ object.Name|escape}}</a> <br />
+		This multi-session Event has <a href="{{object.get_absolute_url}}">{{object.NumEvents}}</a> session(s) connected to it. <a href="{{object.get_absolute_url}}"><br/>
+		<input value="VIEW SESSION(S)" type="submit"></a>&nbsp;&nbsp;&nbsp;<a href="/"><input value="ADD SESSION(S)" type="submit"></a><br/>
+		<span class="smalltxt">Entered on: {{ object.pub_date|date:"F j, Y" }} </span><br />
+		
+		-------------------------------------------------------------------
+		
+   
+
+{% endfor %}
+<br/>
+
+
+</div> 
+
+{% endblock %}

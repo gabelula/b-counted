@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="corners_up">Add Other Statistics</div>
+
+<div id="border">
+
+
+<div class="notab">
+<form action="/addmorestats/" method="POST">
+{% if not user %}
+<div class="grey">Please <a href="{% auth_login_url CountNow/?ShowMultisession=1%}">login</a> with your Google ID before entering information.</div>
+</div>
+{% endif %}
+
+<table id="tab">
+
+{%if error%}
+<tr><td colspan="4" style="color: #FF0000;">Please complete the form.</td></tr>
+{%endif%}
+
+
+{{statname.name}}
+
+<br/><br/>
+
+<tr><td colspan="3">What is the title of your statistic? {{statnameform.name}}<br />
+
+<br/><br /> </td><td></td></tr>
+
+{% for s in statforms %}
+
+<tr><td>Who/What?</td><td>{{s.stat}}</td><td>How many people?<br/>
+											 {% if forloop.first %}<span class="smalltxt">(Please enter a number)</span>{% endif %}</td><td><span>{{s.num}}</span></td></tr>
+{% endfor %}
+
+
+</table>
+<br/>
+{%ifequal multisession 1%}
+
+<input type="hidden" value="1" name="multisession">
+
+{%endifequal%}
+<input type="hidden" value="{{key}}" name="key">
+<span class = "add"><input type="submit" name="dovote" value="ADD"/>  </span>
+</form>
+
+
+
+<br/>
+
+
+
+</div>
+{% endblock %}
+
+
+

@@ -1,0 +1,159 @@
+
+
+{% extends "base.html" %}
+
+{% block content %}
+<div id="corners_up">WHY?</div>
+<div id="border">
+
+<div id="notab">
+
+{% ifequal get_stat 0 %}
+
+<div class="content">
+<br/>
+Apparently, you have not entered anything yet. Get started <a href="/">here</a>.
+
+</div>
+
+{% else %}
+
+
+
+<form name="counter" action="/about_me/" method="POST">
+
+
+{% if msg %}
+<span style="color:#FF0000">{{msg}}</span>
+{% endif %}
+<div class = "grey"> About yourself</div>
+<div class="content">
+<table id="tab">
+<tbody>
+
+<br />
+<br />
+</td>
+</tr>
+
+<tr><td>Gender</td><td><select name="gender"><option selected>{{get_stat.Gender}}</option><option>female</option><option>male</option><option>other</option></select></td></tr>
+
+<tr> <td colspan="2"></td></tr>
+
+</tbody></table>
+
+<br>
+
+<input value="CHANGE" type="submit">
+
+
+<br />
+<br />
+</div>
+
+{% ifnotequal events 0 %}
+<div class="grey">Events</div>
+<div class="content">
+<br/>
+{%for event in events %}
+	<span class="smalltxt">Entered on: {{ event.pub_date|date:"F j, Y" }}</span><br/>
+	Event Title: <a href= "{{event.get_absolute_url}}">{{ event.Event|escape}}</a> <br />
+	<br />
+
+
+{% endfor %}
+
+</div>
+{% endifnotequal %}
+
+{% ifnotequal multi_events 0 %}
+
+<div class="grey">Your multi-session events</div>
+<div class="content">
+<br/>
+
+
+{% for multi_event in multi_events %}
+<span class="smalltxt">Entered on: {{ multi_event.pub_date|date:"F j, Y" }}</span><br/>
+Event Title: <a href= "{{multi_event.get_absolute_url}}">{{ multi_event.Name|escape}}</a> <br />
+<br />
+
+{% endfor %}
+</div>
+{% endifnotequal %}
+
+
+
+
+{% ifnotequal get_ratios 0 %}
+
+
+<div class="grey">Your gender ratios</div>
+<div class="content">
+<br/>
+
+{%for ratio in get_ratios %}
+
+
+		<span class="smalltxt">Entered on: {{ ratio.pub_date|date:"F j, Y" }}</span><br/>
+		Event title: <a href= "{{ratio.Input.get_absolute_url}}">{{ ratio.Input.Event|escape}}</a> <br />
+		Ratio: {{ratio.Women}} women, {{ratio.Men}} men, {{ratio.Other}} other <br />
+		
+		
+		<br/>
+		<form action="/delete/" method="GET">
+		<input type="submit" value="-"> Delete this ratio?<br/> <br/>
+		<input type="hidden" name="ratio" value="{{ratio.key}}">
+		<input type="hidden" name="multi" value="0">
+		<br/>
+		</form>
+		
+
+{% endfor %}
+</div>
+{% endifnotequal %}
+
+
+
+
+{%ifnotequal get_other_stats 0%}
+
+<div class="grey">Your stats</div>
+<div class="content">
+
+	{%for s in get_other_stats%}
+<br/>	
+		Event title: <a href= "{{s.event.get_absolute_url}}">{{s.event.Event|escape}}</a> <br />
+		Title of the statistic: <a href="{{s.get_absolute_url}}">{{s.name}}</a><br/><br/>
+		<form action="/delete_stat/" method="GET">
+		<input type="submit" value="-"> Delete this statistic?<br/> <br/>
+		<input type="hidden" name="stat_key" value="{{s.key}}">
+		<input type="hidden" name="multi" value="">
+	
+		</form>
+		
+	
+		
+
+	{% endfor %}
+	</div>
+	
+	{%endifnotequal %}
+
+
+
+
+	
+</form>
+<br/>
+<br/>
+
+{% endifequal %}
+
+</div>
+
+
+ 
+
+{% endblock %}
+

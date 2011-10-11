@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form name="counter" action="/Geotag/" method="POST">
+
+
+Event Title: {{ event.Event|escape}} <br />
+{% if event.Parent %}
+This event is one part of the multisession-event <a href="{{event.Parent.get_absolute_url}}">{{event.Parent.Name}}</a><br/>
+{% endif %}
+<span class="smalltxt">Entered on: {{ event.pub_date|date:"F j, Y" }}</span><br />
+
+--------------------------------------------------------
+<br/>
+
+{{stat_info}}
+<br/>
+{{b}}
+<br/>
+
+{%for ratio in ratio_all%}
+
+{%ifequal user ratio.created_by  %}
+<a href="/delete/{{ratio.key}}/">delete</a> this ratio?
+
+{% endifequal %}
+
+<br/>
+
+
+
+# women: {{ratio.Women}} <br />
+# men: {{ratio.Men}} <br/>
+# other:  {{ ratio.Other}} <br/>
+Event Description: {{ ratio.ShortDescription}}<br/>
+<span class="smalltxt">Entered on: {{ ratio.pub_date|date:"F j, Y" }}</span><br />
+
+<br/>
+
+
+{%endfor%}
+
+
+
+<div id="tab">
+
+<tr><td colspan="2"><strong>Thanks! Would you like to add an address to this event so that it can be geotagged?</strong></td></tr>
+
+
+<tr><td colspan="2"></tr>
+
+
+</tbody></table>
+
+<br>
+<input type="hidden" name="event" value="{{event.key}}">
+<input type="hidden" name="multi_event" value="{{multi_event.key}}">
+<input value="ADD GEOTAG" type="submit">  
+<br/>
+<br/ >
+<br/ >
+</form>
+
+{% endblock %}

@@ -1,0 +1,71 @@
+
+{% extends "base.html" %}
+{% load math_filter %}
+
+
+
+{% block content %}
+<div id="corners_up">Statistics about the site</div>
+
+<div id="border">
+<div id="notab">
+<div class="grey">Contributors</div> 
+<div class="content">
+<table>
+
+<tr><td>{%add_three women men other %} Total contributors</td><td></td></tr> 
+<tr><td>{{women}} Female contributors  	</td><td><div style="border:1px solid #564b47;"><img src="/css/images/barchart.gif" height="14" width="{% percentage_design women men other %}" /></div></td> <td>{%percentage women other men%}%</td></tr>	
+<tr><td>{{men}} Male contributors</td><td><div style="border:1px solid #564b47;"><img src="/css/images/barchart.gif" height="14" width="{% percentage_design men women other %}" /></div></td> <td>{%percentage men women other%}%</td></tr>
+<tr><td>{{other}} Other contributors</td><td><div style="border:1px solid #564b47;"><img src="/css/images/barchart.gif" height="14" width="{% percentage_design other men women %}" /></div></td> <td>{%percentage other men women%}%</td></tr>
+</table>
+<br/>
+</div>
+<div class="grey">Events</div>
+<div class="content">
+<table>
+<tr><td>{%add_three fem_events men_events other_events %} Total events</td><td></td></tr> 
+<tr><td>{{fem_events}} Events entered by women</td><td><div style="border:1px solid #564b47;"><img src="/css/images/barchart.gif" height="14" width="{% percentage_design fem_events men_events other_events %}" /></div></td> <td>{%percentage fem_events men_events other_events%}%</td></tr>		
+<tr><td>{{men_events}} Events entered by men</td><td><div style="border:1px solid #564b47;"><img src="/css/images/barchart.gif" height="14" width="{% percentage_design men_events fem_events  other_events %}" /></div></td> <td>{%percentage men_events fem_events other_events%}%</td></tr>
+<tr><td>{{other_events}} Events entered by other</td><td><div style="border:1px solid #564b47;"><img src="/css/images/barchart.gif" height="14" width="{% percentage_design other_events fem_events men_events  %}" /></div></td> <td>{%percentage other_events fem_events men_events %}%</td></tr>
+</table>
+<br/>
+</div>
+<div class="grey">Multi-session events </div>
+<div class="content">
+<table>
+<tr><td>{%add_three fem_multievents men_multievents other_multievents %} Total multi-session events</td><td></td></tr>
+<tr><td>{{fem_multievents}} Multi-session events entered by women</td><td><div style="border:1px solid #564b47;"><img src="/css/images/barchart.gif" height="14" width="{% percentage_design fem_multievents men_multievents other_multievents %}" /></div></td> <td>{%percentage fem_multievents men_multievents other_multievents %}%</td></tr>		
+<tr><td>{{men_multievents}} Multi-session events entered by men</td><td><div style="border:1px solid #564b47;"><img src="/css/images/barchart.gif" height="14" width="{% percentage_design men_multievents fem_multievents  other_multievents %}" /></div></td> <td>{%percentage men_multievents fem_multievents  other_multievents%}%</td></tr>		
+<tr><td>{{other_multievents}} Multi-session events entered by other</td><td><div style="border:1px solid #564b47;"><img src="/css/images/barchart.gif" height="14" width="{% percentage_design other_multievents fem_multievents men_multievents %}" /></div></td> <td>{%percentage other_multievents fem_multievents men_multievents%}%</td></tr>		
+
+</table>
+<br/>
+</div>
+<div class="grey">Gender Ratio Reports</div>
+<div class="content">
+<table>
+<tr><td>{%add_three fem_ratios men_ratios other_ratios %} Total gender ratio estimates </td><td></td></tr>
+<tr><td>{{fem_ratios}} Gender ratio reports entered by women  </td><td><div style="border:1px solid #564b47;"><img src="/css/images/barchart.gif" height="14" width="{% percentage_design fem_ratios men_ratios other_ratios %}" /></div></td> <td>{%percentage fem_ratios men_ratios other_ratios %}%</td></tr>		
+<tr><td>{{men_ratios}} Gender ratio reports entered by men</td><td><div style="border:1px solid #564b47;"><img src="/css/images/barchart.gif" height="14" width="{% percentage_design men_ratios fem_ratios other_ratios %}" /></div></td> <td>{%percentage men_ratios fem_ratios other_ratios %}%</td></tr>	
+<tr><td>{{other_ratios}} Gender ratio reports entered by other</td><td><div style="border:1px solid #564b47;"><img src="/css/images/barchart.gif" height="14" width="{% percentage_design other_ratios fem_ratios men_ratios  %}" /></div></td> <td>{%percentage other_ratios fem_ratios men_ratios %}%</td></tr>	
+
+</table>
+<br/>
+</div>
+<div class="grey">Other statistics</div>
+<div class="content">
+<table>
+<tr><td>{%add_three fem_stats men_stats other_stats %} Total other statistics (other than gender ratios)</td><td></td></tr>
+<tr><td>{{fem_stats}} Other stats entered by women </td><td></td></tr> 		
+<tr><td>{{men_stats}} Other stats entered by men</td><td></td></tr>
+<tr><td>{{other_stats}} Other stats entered by other</td><td></td></tr>
+</table>
+<br />
+<br />
+
+</div>
+</div>
+
+
+
+{% endblock %}

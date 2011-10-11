@@ -1,0 +1,85 @@
+
+
+{% extends "base.html" %}
+
+{% block content %}
+<div id="corners_up" style="vertical-align:top; padding-top:0px;"><form name=form> 
+			<select name="fieldname" size="1" style="vertical-align:top; margin-top:3px;"
+				onChange="openDir( this.form )"> 
+				<option value="/all">ALL EVENTS</option> 
+				<option value="/recent">MOST RECENT ACTIVITY</option> 
+				<option selected value="/all_multisession">ALL MULTI-SESSION EVENTS</option> 
+			</select> 
+
+</div>
+
+<div id="border">
+
+
+
+	<div id="notab">
+		<div class="grey">Browse by Multi-Session Event Name
+		</div><br/>
+ </form> 
+   		 {% for p in page.paginator.pages %}
+
+    	<span class="content">
+       	<a href="?page={{ p.number }}" style="text-decoration:none;">
+        	<input value="{{p}}" type="submit" class="add" /></a>&nbsp;&nbsp;&nbsp;
+    	</span>
+
+    	{% endfor %}
+
+<br/>
+ {% for object in page.object_list %}
+
+ 		<br/>
+		<div class="grey">Event Title: <a href= "{{object.get_absolute_url}}">{{ object.Name|escape}}</a></div>
+	<div class="content">
+		<span class="smalltxt">Entered on: {{ object.pub_date|date:"F j, Y" }} </span><br />
+		This multisession Event has <a href="{{object.get_absolute_url}}">{{object.NumEvents}}</a> session(s) connected to it. <br/>
+	
+		{% ifequal add 1 %}
+		<form method="GET" action="/CountNow" >
+			<input type="hidden" name="Women" value="{{Women}} "/>
+			<input type="hidden" name="Men" value="{{Men}}"/>
+			<input type="hidden" name="Other" value="{{Other}}"/>
+			<input type="hidden" name="user" value={{user}}/>
+			<input type="hidden" name="Event_URL" value="{{Event_URL}}"/>
+			<input type="hidden" name="Event" value="{{Event}}"/>
+			<input type="hidden" name="ShortDescription" value="{{ShortDescription}}"/>
+			<input type="hidden" name="key" value="{{key}}"/>
+			<input type="hidden" name="Multisession" value="{{object.key}}"/>
+			<input type="hidden" name="ParentEvent" value="{{object.key}}"/>
+			<input type="hidden" name="ParentEvent,Name" value="{{object.Name|escape}}"/>
+			<input type="submit" value="ADD"> your event as a session to this event. <br/>
+		</form>
+		
+		{% else %}
+		<br />
+<form action="/addsessionform/" method="GET">
+<input type="hidden" name="ratio" value="0"/>
+<input type="hidden" name="key" value="{{object.key}}"/>
+<input type="hidden" name="multisession" value="yes"/>
+<input type="submit" name="session" value="+"/> Add another session to this multisession event.<br/>
+</form>
+
+<br/>
+		
+		
+		
+		{% endifequal %}
+	</div>
+		
+	
+		
+   
+
+{% endfor %}
+<br/>
+
+
+</div> 
+
+
+{% endblock %}

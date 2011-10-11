@@ -1,0 +1,58 @@
+
+
+
+{% extends "base.html" %}
+{% load math_filter %}
+
+{% block content %}
+<div id="corners_up">Additional Statistics</div>
+
+<div id="border">
+<div id="notab">
+
+
+
+
+{%ifequal multi 1%}
+
+<div class = "grey">Multi-session Event Title: <a href="{{event.get_absolute_url}}">{{event.Name|escape}}</a> </div>
+
+<div class="content">
+
+<span class="smalltxt">Entered on: {{ event.pub_date|date:"F j, Y" }}</span><br />
+
+<br/>
+
+{% for stat in stat_names %}
+
+<a href="{{stat.get_absolute_url}}?multi=1">{{stat.name}}</a><br/>
+
+
+{% endfor %}
+
+{% else %}
+
+
+<div class = "grey">Event Title: <a href="{{event.get_absolute_url}}">{{event.Event|escape}}</a> </div>
+<div class="content">
+<span class="smalltxt">Entered on: {{ event.pub_date|date:"F j, Y" }}</span><br />
+<br/>
+
+{% for stat in stat_names %}
+
+<a href="{{stat.get_absolute_url}}" />{{stat.name}}</a><br/>
+
+
+{% endfor %}
+
+
+{% endifequal %}
+
+
+
+
+</div> 
+</div> 
+
+
+{% endblock %}

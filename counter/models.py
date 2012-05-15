@@ -1,122 +1,106 @@
-from appengine_django.models import BaseModel
-from google.appengine.ext import db
-from google.appengine.api.users import User
-import datetime
+from django.db import models
+from django.contrib.auth.models import User
 
+# Stores all addresses
+class EventAddress(models.Model):
+	Street  = models.CharField(max_length=10)
+	City    = models.CharField(max_length=10)
+	State   = models.CharField(max_length=10)
+	Zip     = models.CharField(max_length=5)
+	Country = models.CharField(max_length=15)
+	latitude   = models.FloatField()
+	longitude  = models.FloatField()
+	created_by = models.ForeignKey(User)
 
-#this stores all addresses
-class EventAddress(db.Model):
-	Street=db.StringProperty()
-	City=db.StringProperty()
-	State=db.StringProperty()
-	Zip = db.StringProperty()
-	Country=db.StringProperty()
-	latitude = db.FloatProperty()
-	longitude = db.FloatProperty()	
-	created_by = db.UserProperty()
-	def __str__(self):
-		return self.EventAddress
-	
-	def __str__(self):
-		return '%s' %self.Contributor
+	def __unicode__(self):
+	  return self.EventAddress
 
-#this stores multisession event names etc.
-class ParentEvent(db.Model):
-	Address=db.ReferenceProperty(EventAddress)
-	Name = db.StringProperty()
-	NumEvents = db.IntegerProperty()
-	Event_URL = db.StringProperty() 
-	pub_date = db.DateTimeProperty()
-	up_date = db.DateTimeProperty()
-	created_by = db.UserProperty()
+	def __unicode__(self):
+	  return '%s' % self.Contributor
+
+# Stores multisession event names (conferences)
+class ParentEvent(models.Model):
+	Address    = models.ForeignKey(EventAddress)
+	Name       = models.CharField(max_length=30)
+	NumEvents  = models.IntegerField()
+	Event_URL  = models.URLField() 
+	pub_date   = models.DateField()
+	up_date    = models.DateField()
+	created_by = models.ForeignKey(User)
 	
-	
-	def __str__(self):
+	def __unicode__(self):
 		return self.ParentEvent
+
 	class Meta:
-		ordering = ('-pub_date')
 		get_latest_by = 'pub_date'
 		
-	def __str__(self):
+	def __unicode__(self):
 		return self.Name
 		
 	def get_absolute_url(self):
 		return '/multisession-event/%s/' % self.key()
 
-#this stores single events or sessions connected to a multi-session event (stored above)
-class Input(db.Model):
-	Multi = db.BooleanProperty()
-	Parent = db.ReferenceProperty(ParentEvent)
-	Event = db.StringProperty()
-	Event_URL = db.StringProperty() 
-	Address= db.ReferenceProperty(EventAddress)
-	pub_date = db.DateTimeProperty()
-	up_date = db.DateTimeProperty()
-	created_by = db.UserProperty()
-	#EventDay=db.DateProperty(default=datetime.date.isoformat(datetime.date.today()))
-	EventDay=db.DateProperty()
+# Stores single events or sessions connected to a multi-session event (stored above)
+class Input(models.Model):
+	Multi      = models.BooleanField()
+	Parent     = models.ForeignKey(ParentEvent)
+	Event      = models.CharField(max_length=30)
+	Event_URL  = models.URLField()
+	Address    = models.ForeignKey(EventAddress)
+	pub_date   = models.DateField()
+	up_date    = models.DateField()
+	created_by = models.ForeignKey(User)
+	EventDay   = models.DateField()
 
-	def __str__(self):
+	def __unicode__(self):
 		return self.Event
 		
 	def get_absolute_url(self):
 		return '/event/%s/' % self.key()
 
-#gender distribution is stored here.
-
-class Ratio(db.Model):
-	Input= db.ReferenceProperty(Input)
-	ParentEvent=db.ReferenceProperty(ParentEvent)
-	WhatRatio = db.StringProperty(default='Everyone present: Audience, speakers/panelists, organizers, etc.')
-	Men = db.IntegerProperty(default=0)
-	Other = db.IntegerProperty(default=0)
-	Women= db.IntegerProperty(default=0)
-	pub_date = db.DateTimeProperty()
-	ShortDescription=db.TextProperty(default='No description')
-	created_by = db.UserProperty()
+# Gender distribution is stored here.
+class Ratio(models.Model):
+	Input       = models.ForeignKey(Input)
+	ParentEvent = models.ForeignKey(ParentEvent)
+	WhatRatio   = models.CharField(max_length=15, default='Everyone present: Audience, speakers/panelists, organizers, etc.')
+	Men         = models.IntegerField(default=0)
+	Other       = models.IntegerField(default=0)
+	Women       = models.IntegerField(default=0)
+	pub_date    = models.DateField()
+	ShortDescription = models.TextField(default='No description')
+	created_by       = models.ForeignKey(User)
 	
-	def __str__(self):
+	def __unicode__(self):
 		return self.Event
 
-#if users want to add more stats to an event/session		
-class StatName(db.Model):
-	event = db.ReferenceProperty(Input)
-	ParentEvent = db.ReferenceProperty(ParentEvent)
-	name = db.StringProperty()
-	created_on = db.DateTimeProperty(auto_now_add = 1)
-	created_by = db.UserProperty()
-	def __str__(self):
+# If users want to add more stats to an event/session		
+class StatName(models.Model):
+	event       = models.ForeignKey(Input)
+	ParentEvent = models.ForeignKey(ParentEvent)
+	name        = models.CharField(max_length=30)
+	created_on  = models.DateField(auto_now_add = 1)
+	created_by  = models.ForeignKey(User)
+
+	def __unicode__(self):
 		return '%s' %self.name
 		
 	def get_absolute_url(self):
 		return '/stat/%s/' % self.key()
 
-#stats regarding contributors
-class UserStat(db.Model):
-	Contributor= db.UserProperty()
-	Gender=db.StringProperty()
-	Stats=db.IntegerProperty(default=0)
-	Ratios=db.IntegerProperty(default=0)
-	Events =db.IntegerProperty(default=0)
-	Multi_Events = db.IntegerProperty(default=0)
-	
-	
+# Stats regarding contributors
+class UserStat(models.Model):
+	Contributor  = models.ForeignKey(User)
+	Gender       = models.CharField(max_length=10)
+	Stats        = models.IntegerField(default=0)
+	Ratios       = models.IntegerField(default=0)
+	Events       = models.IntegerField(default=0)
+	Multi_Events = models.IntegerField(default=0)
 
-#since the stats are flexible, this is the stat added
-class Stat(db.Model):
-    StatName = db.ReferenceProperty(StatName)
-    stat = db.StringProperty()
-    num = db.IntegerProperty(default = 0)
+# Since the stats are flexible, this is the stat added
+class Stat(models.Model):
+    StatName = models.ForeignKey(StatName)
+    stat     = models.CharField(max_length=10)
+    num      = models.IntegerField(default = 0)
     
-    def __str__(self):
+    def __unicode__(self):
         return '%s' %self.stat
-
-
-
-
-    
-  
-	
-    
-    
-		

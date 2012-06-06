@@ -7,9 +7,12 @@ from django.contrib.auth.decorators import login_required
 from django import forms
 from page_maker import NamePaginator
 from google.appengine.api import urlfetch
+
 from django.http import *
 from django.conf import settings
 from xml.dom import minidom
+
+from django.contrib.auth.models import User
 
 from google.appengine.api import users
 from google.appengine.ext.db import djangoforms

@@ -1,0 +1,230 @@
+body {
+	background-color: #FFF;
+	font-family: Verdana, Arial, SunSans-Regular, Sans-Serif;
+	font-size: 12px;
+	color:#000;  
+	padding:20px;
+	margin:0px;
+	text-align: center;
+}
+
+#content { 	
+	text-align: left;
+	vertical-align: top;	
+	margin: 0px auto;
+	padding: 0px;
+	width: 945px;
+	background-color: #ffffff;
+	/*ie requires this aargh*/
+	background-image:url(images/middle.png);
+	background-repeat:repeat-y;
+}
+
+#bg { 
+	background-image:url(images/middle.png);
+	background-repeat:repeat-y;
+	margin-top:0px;
+}
+
+
+#box{
+	vertical-align: top;
+ 	padding-left:60px;
+ 	padding-right:10px;
+ 	padding-top:2px;
+ 	margin-top:0px;	
+ 	}
+ 	
+#box .special{
+	white-space:nowrap;
+
+ }
+
+
+#corners_up {
+	vertical-align: top;
+	background-image:url(images/corner_up.png);
+	background-repeat: no-repeat;
+	color: #333333;
+	padding-top: 4px;
+	padding-left:10px;
+	padding-bottom:3px;
+	font-size: 19px;
+	}
+
+
+#corners_up select{
+	background-color:#ffbb00;
+	color:#333333;
+	background-image: none;
+	}
+
+#corners_down {
+	vertical-align: top;
+	background-image:url(images/corner_down.png);
+	background-repeat: no-repeat;
+	padding-top: 4px;
+	padding-left:10px;
+	padding-bottom:3px;
+
+	}
+
+#border {
+    vertical-align: top;
+	width:800px;
+	border-top: 0px;
+	border-left: 2px;
+	border-right: 2px;
+	border-bottom: 0px;
+	border-style: solid;
+	border-color: #6d6d6d;
+	background-color: #333333;
+}
+
+
+#tab {
+	vertical-align: top;
+	/*width: 100%;*/
+	font-size:16px;
+	
+	}
+	
+#notab {
+	vertical-align: top;
+	
+	/*width: 100%;*/
+	font-size:16px;
+	}
+	
+#notab .content {
+	padding-left: 10px;
+	padding-top: 0px;
+	color: #ffbb00;
+	}
+
+#tab td {
+	color: #ffbb00;
+	vertical-align:top;
+	text-align: left; 
+	vertical-align: top;
+	font-size: 16px;
+	margin: 0px;
+	font-family: Verdana, Arial, SunSans-Regular, Sans-Serif;
+	padding-left: 14px;
+	padding-top: 4px;
+	padding-bottom:4px;
+}
+
+#box .grey {
+	color: #ffffff;
+	background-color: #6d6d6d;
+	padding-top: 5px;
+	padding-left:10px;
+	padding-bottom: 3px;
+	}
+	
+.grey a:link  {color: #ffffff;}
+.grey a:visited  {color: #ffbb00;}
+
+
+#box .red {
+	color:#ff7800;
+	}
+	
+#box a:link, a:visited{
+		color: #ff8808;
+		
+		text-decoration: underline;
+	}
+	
+#box a:hover{
+		color: #ff8808;
+		text-decoration: none;
+		
+		}
+.right {
+	color: #ff0000;
+	padding-left: 500px;}		
+		
+		
+/* input forms etc. */
+
+textarea, checkbox, input {
+	text-align:top;
+	vertical-align: top;
+	font-size: 16px;
+	font-family: Verdana, Arial, SunSans-Regular, Sans-Serif;
+    color: #ff8808;
+	background-color:#333333;
+	border-color:#ffbb00;
+	padding-left: 6px;
+	padding-right:6px;
+	overflow: visible;
+
+}
+
+
+
+#tab input, textarea, checkbox, select {
+	text-align:top;
+	width:350px;
+	vertical-align: top;
+	font-size: 16px;
+	font-family: Verdana, Arial, SunSans-Regular, Sans-Serif;
+	color:#000;
+	border-color:#ffbb00;
+	background-color:#cccccc;
+}
+
+
+#tab span input {
+   text-align:top;
+	width:50px;
+	vertical-align: top;
+	font-size: 16px;
+	font-family: Verdana, Arial, SunSans-Regular, Sans-Serif;
+	color:#000;
+	border-color:#ffbb00;
+	background-color:#cccccc;
+}
+
+.tab1 input, textarea, checkbox, select {
+	text-align:top;
+	width:350px;
+	vertical-align: top;
+	font-size: 16px;
+	font-family: Verdana, Arial, SunSans-Regular, Sans-Serif;
+	color:#000;
+	border-color:#ffbb00;
+	background-color:#cccccc;
+}
+
+.tab1 td {
+	width:50%;
+	vertical-align:top;
+	
+	}
+	
+.tab1 span input {
+    text-align:top;
+	width:50px;
+	vertical-align: top;
+	font-size: 16px;
+	font-family: Verdana, Arial, SunSans-Regular, Sans-Serif;
+	color:#000;
+	border-color:#ffbb00;
+	background-color:#cccccc;
+}
+
+
+.add input {
+	margin-top: 10px;
+	margin-left: 14px;
+	}
+
+
+.smalltxt {font-size:13px; color: #ff8808;}
+
+
+.stat1 { background-color:  #ff8808; height: 10px;  }
+

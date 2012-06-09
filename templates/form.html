@@ -1,89 +1,95 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div id="corners_up">ADD AN EVENT TO THE DATABASE</div>
+  <div id="corners_up">ADD AN EVENT TO THE DATABASE</div>
 
-<div id="border">
-<div id="notab">
-{% if not user %}
-<div id="notab">
-<div class="grey">
-Please <a href="{% auth_login_url /CountMe/%}">login</a> with your Google ID before entering information.
-</div></div>{% endif %}
+  <div id="border">
+  <div id="notab">
 
+  <div class="content">
+    <form name="counter" action="/countnow/" method="POST">
+      <br />
+      <table class="tab1">
+        {% if error %}
+        <tr>
+          <td colspan="2"  style="color: #FF0000;" >Sorry there was an error - you'll have to complete the form again.</td>
+        </tr>
+        {% endif %}
+        <tr>
+          <td>Event name <span class="red">*</span> <span class="smalltxt"></span>&nbsp;</td>
+          <td style="vertical-align: top;">{{form.Event}}</td>
+        </tr>
+        <tr>
+          <td>Event URL <br/>
+              <span class="smalltxt">URL format: http://www....</span><br /></td><td>{{form.Event_URL}}<br />&nbsp;
+          </td>
+        </tr>
+        <tr>
+          <td>Is this a multi-session event? &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br/> <span class="smalltxt">(e.g. a conference, a convention, a series of<br />business meetings, or some other event series)</span> 
+            <br />&nbsp;</span> </td><td><a href="/CountNow?ShowMultisession=1" style="text-align:left;"><input type="checkbox" name="Multi" style="text-align:left; id='id_Multi' margin-left='1px'"/></a>
+          </td>
+        </tr>
+        <tr>
+          <td>Date <span class="smalltxt">yyyy-mm-dd</span> </td><td style="vertical-align: top;"><input type="text" name="EventDay" value="{% now "Y-m-d" %}" id="id_EventDay" />
+          </td>
+        </tr>
+        <tr>
+          <td>Twitter hashtag of the event <br/><span class="smalltxt">20 characters max including #</span></td><td style="vertical-align: top;"><input type="text" name="hashtag" value="#" id="id_hashtag" /></td>
+        </tr>
+        <tr><td></td><td></td><tr>
+        <tr><td></td><td></td><tr>
+      </table>
+  </div>
+  
+  <div class="grey">
+    Gender Ratio Report (GRR)
+  </div>
+  <div class="content">
+    <br/>
+    <table class="tab1">
+      <tr>
+        <td>Who are you counting? <span class="red">*</span></td>
+        <td>
+          <select name="WhatRatio" id="id_WhatRatio">
+            <option value="Everyone present: Audience, speakers/panelists, organizers, etc." selected="selected">Everyone present: audience, speakers/panelists, organizers, etc.</option>
+            <option value="Audience">Audience</option>
+            <option value="just the speakers/panelists">just the speakers/panelists</option>
+            <option value="just the organizers">just the organizers</option>
+            <option value="Other">Other</option>
+          </select>
+         </td>
+      </tr>
+      <tr>
+        <td># women <span class="red">*</span></td><td>{{ ratioform.women }}</td></tr>
+      <tr>
+        <td># men <span class="red">*</span></td><td>{{ ratioform.men }}</td></tr>
+      <tr>
+        <td># other <span class="red">*</span></td><td>{{ ratioform.other }}</td></tr>
+      <tr>
+        <td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr>
+        <td>Event report/comment &nbsp; &nbsp;</td><td>{{ ratioform.short_escription}}</td></tr>
+    </table>
+  </div>
 
+  {% if CheckContributor %}
+    <br/>
 
-<div class="content">
-<form name="counter" action="/CountNow/" method="POST">
-<br />
-<table class="tab1">
-{%if error%}
-<tr><td colspan="2"  style="color: #FF0000;" >Sorry there was an error - you'll have to complete the form again.</td></tr>
-{%endif%}
-<tr><td>Event name <span class="red">*</span> <span class="smalltxt"></span>&nbsp;</td><td style="vertical-align: top;">{{form.Event}}</td></tr>
+    <div class="grey">Please enter some statistics about yourself (statistics will only be displayed in compiled form)</div>
+    <br/>
+    <div class="content">
+    <table id="tab1">
+      <tr><td width="49%">Gender <span class="red">*</span></td><td width="51%"><select name="gender"><option>----</option><option>female</option><option>male</option><option>other</option></select></td></tr>
+    </table>
+    <br/>
+  {% endif %}
 
-<tr><td>Event URL <br/>
-<span class="smalltxt">URL format: http://www....</span><br /></td><td>{{form.Event_URL}}<br />&nbsp;</td></tr>
-
-<tr><td>Is this a multi-session event? &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br/> <span class="smalltxt">(e.g. a conference, a convention, a series of<br />business meetings, or some other event series)</span> 
-<br />&nbsp;</span> </td><td><a href="/CountNow?ShowMultisession=1" style="text-align:left;"><input type="checkbox" name="Multi" style="text-align:left; id="id_Multi" margin-left="1px"/></a></td>
-<tr><td>Date <span class="smalltxt">yyyy-mm-dd</span> </td><td style="vertical-align: top;"><input type="text" name="EventDay" value="{% now "Y-m-d" %}" id="id_EventDay" /></td></tr>
-<tr><td>Twitter hashtag of the event <br/><span class="smalltxt">20 characters max including #</span></td><td style="vertical-align: top;"><input type="text" name="hashtag" value="#" id="id_hashtag" /></td></tr>
-
-
-<tr><td></td><td></td><tr>
-<tr><td></td><td></td><tr>
-</table>
-
-
-</div>
-
-<div class="grey">
-Gender Ratio Report (GRR)</div>
-<div class="content">
-<br/>
-<table class="tab1">
-<tr><td>Who are you counting? <span class="red">*</span></td><td><select name="WhatRatio" id="id_WhatRatio">
-<option value="Everyone present: Audience, speakers/panelists, organizers, etc." selected="selected">Everyone present: audience, speakers/panelists, organizers, etc.</option>
-<option value="Audience">Audience</option>
-<option value="just the speakers/panelists">just the speakers/panelists</option>
-<option value="just the organizers">just the organizers</option>
-<option value="Other">Other</option>
-
-
-</select></td></tr>
-<tr><td># women <span class="red">*</span></td><td>{{ratioform.Women}}</td></tr>
-<tr><td># men <span class="red">*</span></td><td>{{ratioform.Men}}</td></tr>
-<tr><td># other <span class="red">*</span></td><td>{{ratioform.Other}}</td></tr>
-<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-<tr><td>Event report/comment &nbsp; &nbsp;</td><td>{{ratioform.ShortDescription}}</td></tr>
-</table>
-
-{% if CheckContributor %}
-<br/>
-</div>
-<div class="grey">
-Please enter some statistics about yourself (statistics will only be displayed in compiled form)</div>
-<br/>
-<div class="content">
-<table id="tab1">
-<tr><td width="49%">Gender <span class="red">*</span></td><td width="51%"><select name="gender"><option>----</option><option>female</option><option>male</option><option>other</option></select></td></tr>
-
-</table>
-<br/>
-
-{% endif %}
-
-
-
-
-<input type="hidden" name="JustEvent" value=1>
-
-<span class = "add"><input value="ADD" type="submit">  </span>
-</form>
-<br />
-<br />
-</div>
+    <input type="hidden" name="JustEvent" value=1>
+    <span class = "add"><input value="ADD" type="submit">  </span>
+    </form>
+    <br />
+    <br />
+  </div>
 </div>
 
 {% endblock %}

@@ -14,23 +14,22 @@
 
 
 from django.conf.urls.defaults import *
-#from counter.models import Input as Input
-#from counter.models import ParentEvent as ParentEvent
-#from counter.models import EventAddress as EventAddress
 
-#input_dict = {
-#		'queryset': Input.objects.all(),
-#		'date_field': 'pub_date',
-#}
+from counter.models import Input as Input
+from counter.models import ParentEvent as ParentEvent
+from counter.models import EventAddress as EventAddress
 
+input_dict = {
+  'queryset': Input.objects.all(),
+  'date_field': 'pub_date',
+}
 
 urlpatterns = patterns('',
-    # Example:
- 	
-#	(r'^$', 'counter.views.CountMe'),
+  (r'^$', 'counter.views.Index'),
+  (r'^accounts/', include('registration.urls')),
 #	(r'^navi/', 'counter.views.navi'),
-#    (r'^CountMe/$', 'counter.views.CountMe'),
-#    (r'^CountNow/$','counter.views.CountNow'),
+  (r'^countme/$', 'counter.views.CountMe'),
+  (r'^countnow/$','counter.views.CountNow'),
 #    (r'^CountNow1/$','counter.views.CountNow1'),
 #    (r'^about/$','counter.views.about'),
 #    

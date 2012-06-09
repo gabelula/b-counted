@@ -1,33 +1,26 @@
-
 {% extends "base.html" %}
 
 {% block content %}
 <div id="corners_up">ADD A MULTI-SESSION EVENT TO THE DATABASE</div>
-<div id="border">
-<div id="notab">
-{% if not user %}
-<div class="grey">Please <a href="{% auth_login_url CountNow/?ShowMultisession=1%}">login</a> with your Google ID before entering information.</div>
-{% endif %}
-<br/>
-<form name="counter" action="/CountNow/" method="POST">
-<div class="content">
-<table class="tab1">
-
-
-
-{%if error%}
-<tr><td colspan="2" style="color: #FF0000;">Sorry there was an error - you'll have to complete the form again.</td></tr>
-{%endif%}
-
-
-
-
-<tr><td>Is this a new event? <br/><input type="radio" name="new" value="new" /> </td><td>Or is it already in the <a href="/all_multisession/">database</a>? <br/><a href="/all_multisession/"><input type="radio" name="new" value="existing" /></a><br/>
-																					<span class="smalltxt">If it is already in the database, you can add your <br/>
-																					event to an existing multi-session event.<br/><br/></span></td></tr>
-<tr><td>Multi-session event name <span class="red">*</span></td><td>{{parentform.Name}}</td></tr>
-
-
+  <div id="border">
+    <div id="notab">
+      <br/>
+      <form name="counter" action="/countnow/" method="POST">
+        <div class="content">
+          <table class="tab1">
+          {% if error %}
+            <tr>
+                <td colspan="2" style="color: #FF0000;">Sorry there was an error - you'll have to complete the form again.</td>
+            </tr>
+          {% endif %}
+          <tr>
+            <td>Is this a new event? <br/><input type="radio" name="new" value="new" /> </td>
+            <td>Or is it already in the <a href="/all_multisession/">database</a>? <br/><a href="/all_multisession/"><input type="radio" name="new" value="existing" /></a><br/> 
+                <span class="smalltxt">If it is already in the database, you can add your <br/> event to an existing multi-session event.<br/><br/></span></td>
+          </tr>
+          <tr>
+              <td>Multi-session event name <span class="red">*</span></td><td>{{parentform.Name}}</td>
+          </tr>
 <tr><td>Event URL <br/>
 <span class="smalltxt">URL format: http://www....</span><br /><br /><br /></td><td><input type="text" value="{{Event_URL1}}" name="Event_URL1" id="id_Event_URL1" /><br /><br/></td></tr>
 
